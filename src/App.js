@@ -7,7 +7,7 @@ const ACTIVITIES = ['Workout', 'Study', 'Party', 'Meditation', 'Driving'];
 
 // Custom Combinations with Descriptive Titles
 const CUSTOM_COMBINATIONS = [
-  'Cheerful focus during study',
+  'Intense focus for study',
   'Peaceful joy in meditation',
   'Bright energy for driving',
   'Deep calm in meditation practice',
@@ -39,9 +39,13 @@ function App() {
   // Fetch recommendations
   const fetchRecommendations = async (chip, type) => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/recommend', {
+      const response = await axios.post('http://127.0.0.1:5000/api/recommend', {
         filter: chip,
         filterType: type,
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
       setRecommendations(response.data);
     } catch (error) {
