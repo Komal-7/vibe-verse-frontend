@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import Navbar from './Navbar.js';
+import Modal from './Modal.js';
 
 // Moods and Activities
 const MOODS = ['Happy', 'Calm', 'Energetic', 'Sad', 'Relaxed'];
@@ -26,21 +28,6 @@ const CUSTOM_QUERIES = [
   "Rewind to the 2000s"
 ]
 
-const Modal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2>Modal Title</h2>
-        <p>This is the content of the modal.</p>
-        <button onClick={onClose}>Close</button>
-      </div>
-    </div>
-  );
-};
-
-
 function App() {
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -49,7 +36,7 @@ function App() {
   const [selectedChip, setSelectedChip] = useState('');
   const [filterType, setFilterType] = useState('shuffled'); // 'shuffled' or 'popularity'
   const [recommendations, setRecommendations] = useState([]);
-
+  const [currentQuery, setCurrentQuery] = useState('')
   // Fetch recommendations when a chip is selected or filter type changes
   useEffect(() => {
     if (selectedChip) {
@@ -78,7 +65,8 @@ function App() {
           'Content-Type': 'application/json',
         }
       });
-      setRecommendations(response.data);
+      setCurrentQuery(response.data.query)
+      setRecommendations(response.data.recommendations);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }
@@ -93,18 +81,19 @@ function App() {
         }
       });
       console.log(response.data)
-      setRecommendations(response.data);
+      setCurrentQuery(response.data.query)
+      setRecommendations(response.data.recommendations);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
     }
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h1 style={{ textAlign: 'center', margin: '20px 0' }}>Music Recommendation System</h1>
+    <div>
+      <Navbar />
 
       {/* Filter for Shuffle or Popularity */}
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ margin: '20px', textAlign: 'center' }}>
         <label>
           <input
             type="radio"
@@ -139,7 +128,7 @@ function App() {
                   padding: '10px',
                   border: '1px solid #ccc',
                   borderRadius: '20px',
-                  background: mood === selectedChip ? '#4caf50' : '#f1f1f1',
+                  background: mood === selectedChip ? '#2392db' : '#f1f1f1',
                   color: mood === selectedChip ? '#fff' : '#000',
                   cursor: 'pointer',
                 }}
@@ -159,7 +148,7 @@ function App() {
                   padding: '10px',
                   border: '1px solid #ccc',
                   borderRadius: '20px',
-                  background: activity === selectedChip ? '#4caf50' : '#f1f1f1',
+                  background: activity === selectedChip ? '#2392db' : '#f1f1f1',
                   color: activity === selectedChip ? '#fff' : '#000',
                   cursor: 'pointer',
                 }}
@@ -179,7 +168,7 @@ function App() {
                   padding: '10px',
                   border: '1px solid #ccc',
                   borderRadius: '20px',
-                  background: combo === selectedChip ? '#4caf50' : '#f1f1f1',
+                  background: combo === selectedChip ? '#2392db' : '#f1f1f1',
                   color: combo === selectedChip ? '#fff' : '#000',
                   cursor: 'pointer',
                 }}
@@ -199,7 +188,7 @@ function App() {
                   padding: '10px',
                   border: '1px solid #ccc',
                   borderRadius: '20px',
-                  background: combo === selectedChip ? '#4caf50' : '#f1f1f1',
+                  background: combo === selectedChip ? '#2392db' : '#f1f1f1',
                   color: combo === selectedChip ? '#fff' : '#000',
                   cursor: 'pointer',
                 }}
@@ -220,9 +209,9 @@ function App() {
             overflowY: 'scroll',
           }}
         >
-          <div style={{display:'flex', justifyContent:'space-between'}}>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems: 'center'}}>
             <h2>Recommendations</h2>
-            <button className="open-modal-btn" onClick={openModal}>Open Modal</button>
+            <button className="open-modal-btn" onClick={openModal}>Show Query</button>
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
@@ -252,7 +241,7 @@ function App() {
           </table>
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
+      <Modal isOpen={isModalOpen} stateValue={currentQuery} onClose={closeModal} />
     </div>
   );
 }

@@ -1,0 +1,24 @@
+/* Navbar container */
+.navbar {
+    background-color: white; /* Blue background */
+    color: #007acc;; /* White text */
+    display: flex; /* Flexbox layout */
+    justify-content: space-between; /* Space between title and subtitle */
+    align-items: center; /* Center items vertically */
+    padding: 10px 220px; /* Spacing around the content */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow */
+  }
+  
+  /* Title styling */
+  .navbar-title h1 {
+    font-size: 34px; /* Larger font for the title */
+    font-weight: bold; /* Bold font */
+    margin: 0; /* Remove default margin */
+  }
+  
+  /* Subtitle styling */
+  .navbar-subtitle span {
+    font-size: 20px; /* Smaller font for subtitle */
+    font-weight: 500; /* Light font weight */
+  }
+  
