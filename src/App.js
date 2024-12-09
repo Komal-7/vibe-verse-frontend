@@ -25,7 +25,8 @@ const CUSTOM_QUERIES = [
   'Get all artist names',
   'All albums of Coldplay',
   "Get Count and Avg Popularity of Taylor Swift's tracks for each Album",
-  "Rewind to the 2000s"
+  "Rewind to the 2000s",
+  "Same Energy as song Calm Down"
 ]
 
 function App() {
@@ -119,7 +120,7 @@ function App() {
       <div style={{ display: 'flex', width: '98%', marginTop: '20px' }}>
         {/* Left Side: Chips */}
         <div style={{ flex: 1, padding: '10px', textAlign: 'center' }}>
-          <h2>Select a Mood</h2>
+          <h3>Select a Mood</h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
             {MOODS.map((mood, index) => (
               <button
@@ -139,7 +140,7 @@ function App() {
             ))}
           </div>
 
-          <h2>Select an Activity</h2>
+          <h3>Select an Activity</h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
             {ACTIVITIES.map((activity, index) => (
               <button
@@ -159,7 +160,7 @@ function App() {
             ))}
           </div>
 
-          <h2>Custom Combinations</h2>
+          <h3>Custom Combinations</h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
             {CUSTOM_COMBINATIONS.map((combo, index) => (
               <button
@@ -179,7 +180,7 @@ function App() {
             ))}
           </div>
 
-          <h2>Query</h2>
+          <h3>Query</h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
             {CUSTOM_QUERIES.map((combo, index) => (
               <button
