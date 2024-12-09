@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './App.css';
 
 // Moods and Activities
 const MOODS = ['Happy', 'Calm', 'Energetic', 'Sad', 'Relaxed'];
@@ -18,7 +19,32 @@ const CUSTOM_COMBINATIONS = [
   'Relaxed ride for driving through nature',
 ];
 
+const CUSTOM_QUERIES = [
+  'Get all artist names',
+  'All albums of Coldplay',
+  "Get Count and Avg Popularity of Taylor Swift's tracks for each Album"
+]
+
+const Modal = ({ isOpen, onClose }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Modal Title</h2>
+        <p>This is the content of the modal.</p>
+        <button onClick={onClose}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+
 function App() {
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
   const [selectedChip, setSelectedChip] = useState('');
   const [filterType, setFilterType] = useState('shuffled'); // 'shuffled' or 'popularity'
   const [recommendations, setRecommendations] = useState([]);
@@ -36,6 +62,10 @@ function App() {
     fetchRecommendations(chip, filterType);
   };
 
+  const handleQueryChipCLick = (chip) => {
+    setSelectedChip(chip);
+    fetchQueryRecommendations(chip);
+  }
   // Fetch recommendations
   const fetchRecommendations = async (chip, type) => {
     try {
@@ -47,6 +77,21 @@ function App() {
           'Content-Type': 'application/json',
         }
       });
+      setRecommendations(response.data);
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+    }
+  };
+  const fetchQueryRecommendations = async (chip, type) => {
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/custom-query', {
+        filter: chip
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      console.log(response.data)
       setRecommendations(response.data);
     } catch (error) {
       console.error('Error fetching recommendations:', error);
@@ -143,6 +188,26 @@ function App() {
               </button>
             ))}
           </div>
+
+          <h2>Query</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
+            {CUSTOM_QUERIES.map((combo, index) => (
+              <button
+                key={index}
+                style={{
+                  padding: '10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '20px',
+                  background: combo === selectedChip ? '#4caf50' : '#f1f1f1',
+                  color: combo === selectedChip ? '#fff' : '#000',
+                  cursor: 'pointer',
+                }}
+                onClick={() => handleQueryChipCLick(combo)}
+              >
+                {combo}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Right Side: Recommendations */}
@@ -154,20 +219,25 @@ function App() {
             overflowY: 'scroll',
           }}
         >
-          <h2>Recommendations</h2>
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+            <h2>Recommendations</h2>
+            <button className="open-modal-btn" onClick={openModal}>Open Modal</button>
+          </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
-                <th style={tableHeaderStyle}>Track Name</th>
-                <th style={tableHeaderStyle}>Artist Name</th>
+                {recommendations.length >0 && Object.keys(recommendations[0]).map((col,index)=>(
+                  <th key={index} style={tableHeaderStyle}>{col}</th>
+                ))}
               </tr>
             </thead>
             <tbody>
               {recommendations.length > 0 ? (
                 recommendations.map((rec, index) => (
                   <tr key={index}>
-                    <td style={tableCellStyle}>{rec.trackName}</td>
-                    <td style={tableCellStyle}>{rec.artistName}</td>
+                    {Object.keys(rec).map((key, colIndex) => (
+                      <td key={colIndex} style={tableCellStyle}>{rec[key]}</td>
+                    ))}
                   </tr>
                 ))
               ) : (
@@ -181,6 +251,7 @@ function App() {
           </table>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }
