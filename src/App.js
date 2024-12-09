@@ -22,7 +22,8 @@ const CUSTOM_COMBINATIONS = [
 const CUSTOM_QUERIES = [
   'Get all artist names',
   'All albums of Coldplay',
-  "Get Count and Avg Popularity of Taylor Swift's tracks for each Album"
+  "Get Count and Avg Popularity of Taylor Swift's tracks for each Album",
+  "Rewind to the 2000s"
 ]
 
 const Modal = ({ isOpen, onClose }) => {
