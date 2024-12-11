@@ -15,17 +15,21 @@ const CUSTOM_COMBINATIONS = [
   'melancholic with acoustic feel',
   'vibrant energy for party time',
   'light effort during workout',
-  'easy focus during study time',
+  'calm study time',
   'relaxed ride for driving through nature',
 ];
 
+const CUSTOM_QUERY_COMBINATIONS = [
+  'Gradual Tempo Increase',
+  'Transition my Mood',
+  "Rewind to the 2000s",
+  "Same Energy as song Calm Down"
+]
 const CUSTOM_QUERIES = [
   'Get all artist names',
   'All albums of Coldplay',
   "Get Count and Avg Popularity of Taylor Swift's tracks for each Album",
-  "Rewind to the 2000s",
-  "Same Energy as song Calm Down"
-];
+]
 
 function App() {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -232,7 +236,7 @@ function App() {
             ))}
           </div>
 
-          <h3>Custom Combinations</h3>
+          <h3>Advanced Combinations</h3>
           <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
             {CUSTOM_COMBINATIONS.map((combo, index) => (
               <button
@@ -246,6 +250,46 @@ function App() {
                   cursor: 'pointer',
                 }}
                 onClick={() => handleChipClick(combo)}
+              >
+                {combo}
+              </button>
+            ))}
+          </div>
+
+          <h3>Dynamic Playlists</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
+            {CUSTOM_QUERY_COMBINATIONS.map((combo, index) => (
+              <button
+                key={index}
+                style={{
+                  padding: '10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '20px',
+                  background: combo === selectedChip ? '#2392db' : '#f1f1f1',
+                  color: combo === selectedChip ? '#fff' : '#000',
+                  cursor: 'pointer',
+                }}
+                onClick={() => handleQueryChipClick(combo)}
+              >
+                {combo}
+              </button>
+            ))}
+          </div>
+
+          <h3>Explore Data</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
+            {CUSTOM_QUERIES.map((combo, index) => (
+              <button
+                key={index}
+                style={{
+                  padding: '10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '20px',
+                  background: combo === selectedChip ? '#2392db' : '#f1f1f1',
+                  color: combo === selectedChip ? '#fff' : '#000',
+                  cursor: 'pointer',
+                }}
+                onClick={() => handleQueryChipClick(combo)}
               >
                 {combo}
               </button>
