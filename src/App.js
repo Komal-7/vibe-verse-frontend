@@ -5,18 +5,13 @@ import Navbar from './Navbar.js';
 import Modal from './Modal.js';
 
 // Moods and Activities
-const MOODS = ['happy', 'calm', 'energetic', 'sad', 'relaxed', 'romantic', 'melancholic'];
-const ACTIVITIES = ['workout', 'study', 'party', 'meditation', 'driving', 'relaxing', 'surprise me'];
+const MOODS = ['Happy', 'Calm', 'Energetic', 'Relaxed', 'Romantic', 'Melancholic'];
+const ACTIVITIES = ['Workout', 'Study', 'Party', 'Meditation', 'Driving', 'Relaxing', 'Surprise Me'];
 const CUSTOM_COMBINATIONS = [
-  'bright energy for driving',
-  'deep calm in meditation practice',
-  'high energy for workout sessions',
-  'romantic with low tempo',
-  'melancholic with acoustic feel',
-  'vibrant energy for party time',
-  'light effort during workout',
-  'calm study time',
-  'relaxed ride for driving through nature',
+  'Bright energy for Driving',
+  'Relaxed Ride for Driving',
+  'Melancholic with Acoustic feel',
+  'Light effort during Workout',
 ];
 
 const CUSTOM_QUERY_COMBINATIONS = [
@@ -51,13 +46,12 @@ function App() {
 
   // Function to handle chip selection
   const handleChipClick = (chip) => {
-    const lowerCaseChip = chip.toLowerCase(); // Convert to lowercase
-    setSelectedChip(lowerCaseChip);
+    setSelectedChip(chip);
   
-    if (lowerCaseChip === 'surprise me') {
+    if (chip === 'Surprise Me') {
       fetchSurprise(); // Call the Surprise Me API
     } else {
-      fetchRecommendations(lowerCaseChip, filterType);
+      fetchRecommendations(chip, filterType);
     }
   };
     
@@ -69,7 +63,6 @@ function App() {
   // Fetch recommendations
   const fetchRecommendations = async (chip, type) => {
     try {
-      console.log("Selected Filter:", chip, "Filter Type:", type); // Log the filter
       const response = await axios.post('http://127.0.0.1:5000/api/recommend', {
         filter: chip,
         filterType: type,
@@ -78,7 +71,6 @@ function App() {
           'Content-Type': 'application/json',
         },
       });
-      console.log('API Response:', response.data); // Log the API response
       setCurrentQuery(response.data.query || '');
       setRecommendations(response.data.recommendations || []);
     } catch (error) {
@@ -100,8 +92,8 @@ function App() {
           'Content-Type': 'application/json',
         },
       });
-      console.log('Search Results:', response.data);
-      setRecommendations(response.data); // Update recommendations with search results
+      setCurrentQuery(response.data.query || '');
+      setRecommendations(response.data.recommendations || []);
     } catch (error) {
       console.error('Error executing search:', error);
     }
@@ -116,7 +108,6 @@ function App() {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response.data);
       setCurrentQuery(response.data.query);
       setRecommendations(response.data.recommendations || []);
     } catch (error) {
@@ -128,8 +119,8 @@ function App() {
   const fetchSurprise = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:5000/api/surprise');
-      console.log('Surprise Song:', response.data);
-      setRecommendations(response.data); 
+      setCurrentQuery(response.data.query || '');
+      setRecommendations(response.data.recommendations || []);
     } catch (error) {
       console.error('Error fetching surprise song:', error);
       setRecommendations([]);
@@ -225,8 +216,8 @@ function App() {
                   padding: '10px',
                   border: '1px solid #ccc',
                   borderRadius: '20px',
-                  background: activity.toLowerCase()  === selectedChip ? '#2392db' : '#f1f1f1',
-                  color: activity.toLowerCase()  === selectedChip ? '#fff' : '#000',
+                  background: activity  === selectedChip ? '#2392db' : '#f1f1f1',
+                  color: activity  === selectedChip ? '#fff' : '#000',
                   cursor: 'pointer',
                 }}
                 onClick={() => handleChipClick(activity)}
