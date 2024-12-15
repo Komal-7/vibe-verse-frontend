@@ -42,6 +42,7 @@ function App() {
     if (selectedChip) {
       fetchRecommendations(selectedChip, filterType);
     }
+    // eslint-disable-next-line
   }, [filterType]);
 
   // Function to handle chip selection

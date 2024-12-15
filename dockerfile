@@ -14,7 +14,7 @@ RUN npm run build
 
 # Serve the app with Nginx
 FROM nginx:stable-alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /src/build /usr/share/nginx/html
 
 # Expose port 80
 EXPOSE 80
