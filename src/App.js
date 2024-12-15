@@ -25,7 +25,7 @@ const CUSTOM_QUERIES = [
   'All albums of Coldplay',
   "Get Count and Avg Popularity of Taylor Swift's tracks for each Album",
 ]
-
+// temp - working on Github+Netlify
 function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedChip, setSelectedChip] = useState('');
