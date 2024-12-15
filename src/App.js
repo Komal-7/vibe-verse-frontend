@@ -25,7 +25,7 @@ const CUSTOM_QUERIES = [
   'All albums of Coldplay',
   "Get Count and Avg Popularity of Taylor Swift's tracks for each Album",
 ]
-
+// temp - working on Github+Netlify
 function App() {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedChip, setSelectedChip] = useState('');
@@ -131,7 +131,7 @@ function App() {
   return (
     <div>
       <Navbar />
-
+      <h1>This is for testing auto deploy on PR</h1>
       {/* Filter for Shuffle or Popularity */}
       <div style={{ margin: '20px', textAlign: 'center' }}>
         <label>
